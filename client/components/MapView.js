@@ -1,21 +1,43 @@
 import React from 'react';
-import MapView, { Marker } from 'react-native-maps';
-import { StyleSheet, View } from 'react-native';
-import { useEffect } from 'react';
+import MapView, { Callout, Marker } from 'react-native-maps';
+import { StyleSheet, View, Text } from 'react-native';
+import { db } from '../Firebase/firebase';
+import { useEffect, useState } from 'react';
+import { getDocs, collection } from 'firebase/firestore';
 
-function Mapview({ latitude, longitude }) {
-  console.log(latitude, 'lat');
-  console.log(longitude, 'long');
+function Mapview(props) {
+  const [locations, setLocations] = useState([]);
+
+  const locationCollectionRef = collection(db, 'locations');
+
+  useEffect(() => {
+    async function getLocation() {
+      try {
+        const data = await getDocs(locationCollectionRef);
+        const filterData = data.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
+        setLocations(filterData);
+      } catch (err) {
+        console.err(err);
+      }
+    }
+    getLocation();
+  }, []);
 
   return (
     <View style={styles.container}>
       <MapView style={styles.map}>
-        <Marker
-          coordinate={{
-            latitude: latitude,
-            longitude: longitude,
-          }}
-        />
+        {locations.map((location) => (
+          <Marker
+            key={location.id}
+            coordinate={{
+              latitude: location.latitude,
+              longitude: location.longitude,
+            }}
+          />
+        ))}
       </MapView>
     </View>
   );

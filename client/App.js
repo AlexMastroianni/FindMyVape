@@ -1,12 +1,8 @@
 import { NavigationContainer } from '@react-navigation/native';
-import { StatusBar } from 'expo-status-bar';
-import { View, StyleSheet } from 'react-native';
-import MapView from 'react-native-maps';
 import { TailwindProvider } from 'tailwindcss-react-native';
 import Homescreen from './screens/Homescreen';
 import Locationscreen from './screens/Locationscreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { AppRegistry } from 'react-native';
 
 const Tab = createBottomTabNavigator();
 
