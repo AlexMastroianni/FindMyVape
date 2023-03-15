@@ -36,7 +36,15 @@ function Mapview(props) {
               latitude: location.latitude,
               longitude: location.longitude,
             }}
-          />
+          >
+            <Callout tooltip>
+              <Text>{location.name}</Text>
+              <Text>
+                User Rating:{location.userRating} || Google Rating:{' '}
+                {location.rating}
+              </Text>
+            </Callout>
+          </Marker>
         ))}
       </MapView>
     </View>
