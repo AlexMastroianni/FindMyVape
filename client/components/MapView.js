@@ -1,9 +1,12 @@
 import React from 'react';
 import MapView, { Callout, Marker } from 'react-native-maps';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, Pressable } from 'react-native';
 import { db } from '../Firebase/firebase';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import AddLocationModal from './AddLocationModal';
 import { useEffect, useState } from 'react';
 import { getDocs, collection } from 'firebase/firestore';
+import { LoneSchemaDefinitionRule } from 'graphql';
 
 function Mapview(props) {
   const [locations, setLocations] = useState([]);
@@ -24,7 +27,7 @@ function Mapview(props) {
       }
     }
     getLocation();
-  }, []);
+  }, [locations]);
 
   return (
     <View style={styles.container}>

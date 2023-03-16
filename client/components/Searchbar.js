@@ -15,47 +15,54 @@ import AddLocationModal from './AddLocationModal';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import GooglePlacesInput from './GooglePlaces';
 
+const apiKey = 'AIzaSyCB-HOVu_8ABo4EoZKs_BLeYs_xPmpqQwE';
+
 function Searchbar() {
   const navigation = useNavigation();
   const [text, onChangeText] = React.useState('');
+  const [location, setLocation] = React.useState([]);
   const [modalVisible, setModalVisible] = useState(false);
 
   return (
     <SafeAreaView style={styles.searchContainer}>
       <View style={styles.searchOuter}>
-        <View style={styles.searchContainer}>
-          <View style={styles.search}>
-            <Pressable>
-              <Ionicons
-                name="add-outline"
-                size={30}
-                color="grey"
-                style={styles.addIcon}
-                onPress={() => setModalVisible(true)}
-              />
-            </Pressable>
-            <TextInput
-              style={styles.textInput}
-              onChange={onChangeText}
-              className="text-black px-3"
-            ></TextInput>
-
-            <Pressable>
-              <Ionicons
-                name="arrow-back-outline"
-                size={30}
-                color="grey"
-                style={styles.backIcon}
-                onPress={() => navigation.navigate('Home')}
-              />
-            </Pressable>
-          </View>
-        </View>
+        <GooglePlacesAutocomplete
+          placeholder="Type a place"
+          fetchDetails={true}
+          GooglePlacesDetailsQuery={{
+            rankby: 'distance',
+          }}
+          onPress={(data, details = null) => {
+            console.log(data, details);
+            setLocation({
+              latitude: details.geometry.location.lat,
+              longitude: details.geometry.location.lng,
+              latitudeDelta: 1,
+              longitudeDelta: 1,
+            });
+          }}
+          query={{
+            key: apiKey,
+            types: 'establishment',
+            radius: 2000,
+            location: `${location.latitude}, ${location.longitude}`,
+          }}
+          onFail={(error) => console.log(error)}
+          onNotFound={() => console.log('no results')}
+          styles={{
+            container: {
+              flex: 0,
+            },
+            description: {
+              color: '#000',
+              fontSize: 16,
+            },
+            predefinedPlacesDescription: {
+              color: '#3caf50',
+            },
+          }}
+        />
       </View>
-      <AddLocationModal
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
-      />
     </SafeAreaView>
   );
 }

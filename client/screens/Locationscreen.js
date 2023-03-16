@@ -8,7 +8,6 @@ function Locationscreen() {
   return (
     <View>
       <GooglePlacesInput />
-
       <View>
         <Mapview />
       </View>

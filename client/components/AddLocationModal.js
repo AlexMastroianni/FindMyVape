@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Alert,
   Modal,
@@ -8,28 +8,27 @@ import {
   View,
   TextInput,
 } from 'react-native';
-import { v4 as uuidv4 } from 'uuid';
+import { doc, addDoc, collection } from 'firebase/firestore';
+import { db } from '../Firebase/firebase';
 
-function AddLocationModal({ modalVisible, setModalVisible }) {
-  const [addLocation, setLocation] = useState([]);
-
-  useEffect(() => {
-    const storedToDos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
-    if (storedToDos) setToDo(storedToDos);
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(ToDo));
-  }, [ToDo]);
-
-  function handleAddTodo(e) {
-    const name = todoNameRef.current.value;
-    if (name === '') return;
-    setToDo((prevTodo) => {
-      return [...prevTodo, { id: uuidv4(), name: name, complete: false }];
+function AddLocationModal({
+  modalVisible,
+  setModalVisible,
+  location,
+  name,
+  rating,
+  openingHours,
+}) {
+  function addLocation() {
+    addDoc(collection(db, 'locations'), {
+      latitude: location.latitude,
+      longitude: location.longitude,
+      name: name.name,
+      rating: rating.rating,
+      image: '444',
+      userRating: false,
     });
-    todoNameRef.current.value = null;
-    console.log(ToDo);
+    setModalVisible(!modalVisible);
   }
 
   return (
@@ -51,19 +50,21 @@ function AddLocationModal({ modalVisible, setModalVisible }) {
             <Text style={styles.modalText}>
               Please add it to help the comunity!
             </Text>
-            <View style={styles.TextInputContainer}>
-              <TextInput style={styles.TextInput}></TextInput>
-            </View>
+            <View style={styles.TextInputContainer}></View>
 
             <Pressable
               style={[styles.button, styles.buttonClose]}
-              onPress={() => setModalVisible(!modalVisible)}
+              onPress={() => {
+                addLocation();
+              }}
             >
               <Text style={styles.textStyle}>Add a Location</Text>
             </Pressable>
             <Pressable
               style={[styles.button, styles.buttonClose]}
-              onPress={() => setModalVisible(!modalVisible)}
+              onPress={() => {
+                setModalVisible(!modalVisible);
+              }}
             >
               <Text style={styles.textStyle}>Cancel</Text>
             </Pressable>
