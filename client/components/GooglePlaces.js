@@ -11,6 +11,7 @@ import {
 import Mapview from './MapView';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AddLocationModal from './AddLocationModal';
+import App from '../App';
 
 const apiKey = 'AIzaSyCB-HOVu_8ABo4EoZKs_BLeYs_xPmpqQwE';
 
@@ -94,13 +95,5 @@ const GooglePlacesInput = () => {
     </SafeAreaView>
   );
 };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     width: 400,
-//     flex: 1,
-//     marginTop: 70,
-//   },
-// });
 
 export default GooglePlacesInput;

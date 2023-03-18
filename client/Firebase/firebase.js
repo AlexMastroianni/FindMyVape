@@ -5,6 +5,8 @@ import { getFirestore } from 'firebase/firestore';
 const firebaseConfig = {
   apiKey: 'AIzaSyCT83_NQuf6wL09qBVMKavoTAavrO7-b7k',
   authDomain: 'findmyvape-49a06.firebaseapp.com',
+  databaseURL:
+    'https://findmyvape-49a06-default-rtdb.asia-southeast1.firebasedatabase.app',
   projectId: 'findmyvape-49a06',
   storageBucket: 'findmyvape-49a06.appspot.com',
   messagingSenderId: '811457269286',

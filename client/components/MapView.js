@@ -6,7 +6,6 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import AddLocationModal from './AddLocationModal';
 import { useEffect, useState } from 'react';
 import { getDocs, collection } from 'firebase/firestore';
-import { LoneSchemaDefinitionRule } from 'graphql';
 
 function Mapview(props) {
   const [locations, setLocations] = useState([]);
